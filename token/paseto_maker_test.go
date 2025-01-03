@@ -5,12 +5,11 @@ import (
 	"time"
 
 	"github.com/Olusamimaths/simple_bank/util"
-	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/require"
 )
 
-func TestJWTMaker(t *testing.T) {
-	maker, err := NewJWTMaker(util.RandomString(32))
+func TestPasetoMaker(t *testing.T) {
+	maker, err := NewPasetoMaker(util.RandomString(32))
 	require.NoError(t, err)
 
 	username := util.RandomOwner()
@@ -31,8 +30,8 @@ func TestJWTMaker(t *testing.T) {
 	require.WithinDuration(t, expiredAt, payload.ExpiredAt, time.Second)
 }
 
-func TestExpiredJWT(t *testing.T) {
-	maker, err := NewJWTMaker(util.RandomString(32))
+func TestExpiredPaseto(t *testing.T) {
+	maker, err := NewPasetoMaker(util.RandomString(32))
 	require.NoError(t, err)
 
 	token, err := maker.CreateToken(util.RandomOwner(), -time.Minute)
@@ -44,10 +43,10 @@ func TestExpiredJWT(t *testing.T) {
 	require.Empty(t, payload)
 }
 
-func TestInvalidJWTString(t *testing.T) {
-	maker, err := NewJWTMaker(util.RandomString(32))
+func TestInvalidPasetoString(t *testing.T) {
+	maker, err := NewPasetoMaker(util.RandomString(32))
 	require.NoError(t, err)
-	maker2, err := NewJWTMaker(util.RandomString(32))
+	maker2, err := NewPasetoMaker(util.RandomString(32))
 	require.NoError(t, err)
 
 	token, err := maker2.CreateToken(util.RandomOwner(), time.Minute)
@@ -57,25 +56,4 @@ func TestInvalidJWTString(t *testing.T) {
 	payload, err := maker.VerifyToken(token)
 	require.Error(t, err)
 	require.Empty(t, payload)
-}
-
-func TestInvalidJWTAlgNone(t *testing.T) {
-	payload, err := NewPayload(util.RandomOwner(), time.Minute)
-	require.NoError(t, err)
-
-	jwtToken := jwt.NewWithClaims(jwt.SigningMethodNone, jwt.MapClaims{
-		"id":         payload.ID,
-		"username":   payload.Username,
-		"issued_at":  payload.IssuedAt,
-		"expired_at": payload.ExpiredAt,
-	})
-	token, err := jwtToken.SignedString(jwt.UnsafeAllowNoneSignatureType)
-	require.NoError(t, err)
-
-	maker, err := NewJWTMaker(util.RandomString(32))
-	require.NoError(t, err)
-
-	payload, err = maker.VerifyToken(token)
-	require.ErrorContains(t, err, ErrInvalidToken.Error())
-	require.Nil(t, payload)
 }
