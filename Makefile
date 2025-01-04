@@ -23,7 +23,7 @@ sqlc:
 	sqlc generate
 
 test:
-	ENV=dev go test -v -cover ./...
+	go test -v -cover ./...
 
 server:
 	go run main.go
