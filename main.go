@@ -15,7 +15,7 @@ import (
 func main() {
 	config, err := util.LoadConfig(".")
 	if err != nil {
-		log.Fatal("couldn't not load config ", err)
+		log.Fatal("couldn't load config ", err)
 	}
 	log.Printf("DB_DRIVER: %s, DB_SOURCE: %s", os.Getenv("DB_DRIVER"), os.Getenv("DB_SOURCE"))
 
