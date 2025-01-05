@@ -51,4 +51,6 @@ jobs:
           SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
           ACCESS_TOKEN_DURATION: ${{ secrets.ACCESS_TOKEN_DURATION }}
           TOKEN_SYMETRIC_KEY: ${{ secrets.TOKEN_SYMETRIC_KEY }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         run: make test
