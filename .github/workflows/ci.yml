@@ -10,6 +10,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    environment: development
 
     services:
       postgres:
@@ -42,9 +43,6 @@ jobs:
 
       - name: Run migrations
         run: make migrateup
-
-      - name: Output secret
-        run: echo "DB_DRIVER ${{ secrets.DB_DRIVER }}"
 
       - name: Test
         env:
