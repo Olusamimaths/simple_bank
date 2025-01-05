@@ -8,6 +8,12 @@ on:
 
 jobs:
   test:
+    env:
+      DB_DRIVER: ${{ secrets.DB_DRIVER }}
+      DB_SOURCE: ${{ secrets.DB_SOURCE }}
+      SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
+      ACCESS_TOKEN_DURATION: ${{ secrets.ACCESS_TOKEN_DURATION }}
+      TOKEN_SYMETRIC_KEY: ${{ secrets.TOKEN_SYMETRIC_KEY }}
     name: Test
     runs-on: ubuntu-latest
 
@@ -44,14 +50,11 @@ jobs:
 
       - name: Run migrations
         run: make migrateup
+      
+      - name: Output secret
+        run: echo "DB_DRIVER ${{ secrets.DB_DRIVER }}"
 
       - name: Test
-        env:
-          DB_DRIVER: ${{ secrets.DB_DRIVER }}
-          DB_SOURCE: ${{ secrets.DB_SOURCE }}
-          SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
-          ACCESS_TOKEN_DURATION: ${{ secrets.ACCESS_TOKEN_DURATION }}
-          TOKEN_SYMETRIC_KEY: ${{ secrets.TOKEN_SYMETRIC_KEY }}
         run: |
           DB_DRIVER=postgres \
           DB_SOURCE="postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" \
