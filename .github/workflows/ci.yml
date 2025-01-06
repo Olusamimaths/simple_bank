@@ -16,9 +16,9 @@ jobs:
       postgres:
         image: postgres:17
         env:
-          POSTGRES_PASSWORD: secret
-          POSTGRES_USER: root
-          POSTGRES_DB: simple_bank
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         ports:
           - 5432:5432
         options: >-
