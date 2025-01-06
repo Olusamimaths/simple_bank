@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"log"
-	"os"
 
 	"github.com/Olusamimaths/simple_bank/api"
 	db "github.com/Olusamimaths/simple_bank/db/sqlc"
@@ -17,7 +16,6 @@ func main() {
 	if err != nil {
 		log.Fatal("couldn't load config ", err)
 	}
-	log.Printf("DB_DRIVER: %s, DB_SOURCE: %s", os.Getenv("DB_DRIVER"), os.Getenv("DB_SOURCE"))
 
 	conn, err := sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
