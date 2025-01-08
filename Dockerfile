@@ -12,7 +12,7 @@ WORKDIR /app
 COPY --from=build /app/main .
 COPY --from=build /app/migrate ./migrate
 COPY db/migration ./migration
-COPY app.env .
+# COPY app.env .
 COPY init.sh .
 COPY wait-for.sh .
 
